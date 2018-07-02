@@ -8,37 +8,7 @@ function pr($par){
   exit();
 }
 
-/*function preProcess($no){
-  if(is_numeric($no)){ // 
-    $no = str_replace(" ","",$no);
-    $no = str_replace(".","",$no);
-    $no = str_replace("-","",$no);
-    $no = str_replace("(","",$no);
-    $no = str_replace(")","",$no);
-
-    if(substr($no, 0,1)==='0'){ // ex: 085655009393
-      $_1startNo = substr($no, 1); // 85655009393
-      $_1digitNo = substr($no,1,1); // 8
-      $_2digitNo = substr($no,1,2); // 85
-      $_totDigit = strlen($_1startNo); // 11 (start from 8,..)
-      phoneProcess($_1startNo,$_1digitNo,$_2digitNo);
-    }elseif(substr($no, 0,1)!=='+'){ // ex: +6285655009393
-      $_1startNo = $no; // 85655009393
-      $_1digitNo = substr($no,0,1); // 8
-      $_2digitNo = substr($no,0,2); // 85
-      $_totDigit = strlen($_1startNo); // 11 (start from 8,..)
-    }else{ // ex : 85655009393
-      $_1startNo = $no; // 85655009393
-      $_1digitNo = substr($no,0,1); // 8
-      $_2digitNo = substr($no,0,2); // 85
-      $_totDigit = strlen($_1startNo); // 11 (start from 8,..)
-      phoneProcess($_1startNo,$_1digitNo,$_2digitNo);
-    }
-  }
-}
-*/
 // convert "format" of phone number
-// function phoneProcess($_totDigit,$_1startNo,$_1digitNo,$_2digitNo){
 function phoneProcess($no){
   $res['digit']=null;
   $res['prefixLocal']=null;
@@ -56,17 +26,10 @@ function phoneProcess($no){
     $no = str_replace(")","",$no);
     $no = str_replace(".","",$no);
 
-    // if(substr($no, 0,1)==='0'){ // ex: 085655009393
-      $_1startNo = substr($no, 1); // 85655009393
-      $_1digitNo = substr($no,1,1); // 8
-      $_2digitNo = substr($no,1,2); // 85
-      $_digitNo  = strlen($_1startNo);
-    // }else{ // ex : 85655009393
-    //   $_1startNo = $no; // 85655009393
-    //   $_1digitNo = substr($no,0,1); // 8
-    //   $_2digitNo = substr($no,0,2); // 85
-    //   $_digitNo  = strlen($_1startNo)-1;
-    // }
+    $_1startNo = substr($no, 1); // 85655009393
+    $_1digitNo = substr($no,1,1); // 8
+    $_2digitNo = substr($no,1,2); // 85
+    $_digitNo  = strlen($_1startNo); // 11 (count start from 8)
 
     $s='SELECT nama,param2,param3,param4
         FROM parameter
@@ -152,7 +115,6 @@ function getPrefixLocal($no){
 
 function getWAbyNumber($no,$msg){
   $urlx = 'https://wa.me/'.getNumber($no).'/?text='.urlencode($msg);
-  // $urlx = 'https://wa.me/'.getNumber($no).'/?text="'.urlencode($msg).'"';
   return '<a href="'.$urlx.'" target="_blank">'.$urlx.'</a>';
 }
 
